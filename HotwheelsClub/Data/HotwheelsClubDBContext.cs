@@ -1,4 +1,5 @@
-﻿using HotwheelsClub.Models;
+﻿using HotwheelsClub.Data.Map;
+using HotwheelsClub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotwheelsClub.Data
@@ -15,6 +16,7 @@ namespace HotwheelsClub.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new HotwheelsMap());
             base.OnModelCreating(modelBuilder);
         }
     }
