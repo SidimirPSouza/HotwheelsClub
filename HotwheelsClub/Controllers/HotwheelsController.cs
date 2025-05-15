@@ -1,37 +1,53 @@
 ﻿using HotwheelsClub.Models;
 using HotwheelsClub.Repository.Interface;
+using HotwheelsClub.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace HotwheelsClub.Controllers
 {
     [Route("api/[Controller]")]
     [ApiController]
-    public class HotwheelsController : Controller
+    public class HotwheelsController : ControllerBase
     {
-        private readonly IHotwheelsRepository _hotwheelsRepository;
-        public HotwheelsController(IHotwheelsRepository hotwheelsRepository)
+        private readonly IHotwheelsService _hotwheelsService;
+        public HotwheelsController(IHotwheelsService hotwheelsService)
         {
-            _hotwheelsRepository = hotwheelsRepository;
+            _hotwheelsService = hotwheelsService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<HotwheelsModel>>> BuscarTodosHotwheels()
+        public async Task<ActionResult<List<HotwheelsModel>>> SearchTodosHotwheels()
         {
-            List<HotwheelsModel> hotwheels = await _hotwheelsRepository.GetAllHotwheels();
+            List<HotwheelsModel> hotwheels = await _hotwheelsService.GetAllHotwheels();
             return Ok(hotwheels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HotwheelsModel>> BuscarPorId(int id)
+        public async Task<ActionResult<HotwheelsModel>> SearchPorId(int id)
         {
-             HotwheelsModel hotwheels = await _hotwheelsRepository.GetById(id);
-            return (hotwheels);
+             HotwheelsModel hotwheels = await _hotwheelsService.GetById(id);
+            return Ok(hotwheels);
         }
 
         [HttpPost]
-        public async Task<ActionResult<HotwheelsModel>> Adicionar([FromBody] HotwheelsModel hotwheelsModel)
+        public async Task<ActionResult<HotwheelsModel>> Add([FromBody] HotwheelsModel hotwheelsModel)
         {
-            HotwheelsModel hotwheels = await _hotwheelsRepository.Add(hotwheelsModel);
-            return (hotwheels);
+                HotwheelsModel hotwheels = await _hotwheelsService.Add(hotwheelsModel);
+            return Ok(hotwheels);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<HotwheelsModel>> Update([FromBody]HotwheelsModel hotwheelsModel,int id)
+        {
+            HotwheelsModel hotwheels = await _hotwheelsService.Update(hotwheelsModel, id);
+            return Ok(hotwheels);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<HotwheelsModel>> Delete(int id)
+        {
+            bool delete = await _hotwheelsService.DeleteById(id);
+            return Ok(delete);
         }
     }
 }

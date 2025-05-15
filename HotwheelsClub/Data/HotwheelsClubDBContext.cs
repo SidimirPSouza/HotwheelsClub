@@ -12,11 +12,12 @@ namespace HotwheelsClub.Data
         }
 
         public DbSet<HotwheelsModel> Hotwheels { get; set; }
-        public DbSet<UsuarioModel> Usuarios { get; set; }
+        public DbSet<UserModel> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new HotwheelsMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
             base.OnModelCreating(modelBuilder);
         }
     }

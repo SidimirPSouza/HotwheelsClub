@@ -1,6 +1,7 @@
 using HotwheelsClub.Data;
 using HotwheelsClub.Repository;
 using HotwheelsClub.Repository.Interface;
+using HotwheelsClub.Service.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotwheelsClub
@@ -23,6 +24,9 @@ namespace HotwheelsClub
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("Database"))
                 );
             builder.Services.AddScoped<IHotwheelsRepository, HotwheelsRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IHotwheelsService, HotwheelsService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 

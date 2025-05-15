@@ -29,18 +29,12 @@ namespace HotwheelsClub.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Ano")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Cor")
+                    b.Property<string>("Color")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("DonoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Modelo")
+                    b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -50,17 +44,23 @@ namespace HotwheelsClub.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<double>("preco")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("ProprietorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DonoId");
+                    b.HasIndex("ProprietorId");
 
-                    b.ToTable("Hotwheels");
+                    b.ToTable("Hotwheels", (string)null);
                 });
 
-            modelBuilder.Entity("HotwheelsClub.Models.UsuarioModel", b =>
+            modelBuilder.Entity("HotwheelsClub.Models.UserModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,22 +70,23 @@ namespace HotwheelsClub.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("HotwheelsClub.Models.HotwheelsModel", b =>
                 {
-                    b.HasOne("HotwheelsClub.Models.UsuarioModel", "Dono")
+                    b.HasOne("HotwheelsClub.Models.UserModel", "Proprietor")
                         .WithMany()
-                        .HasForeignKey("DonoId")
+                        .HasForeignKey("ProprietorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Dono");
+                    b.Navigation("Proprietor");
                 });
 #pragma warning restore 612, 618
         }

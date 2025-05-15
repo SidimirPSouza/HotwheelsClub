@@ -4,10 +4,11 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Modelo { get; set; }
-        public double preco {  get; set; }
-        public string Cor {  get; set; }
-        public int Ano { get; set; }
-        public virtual UsuarioModel Dono { get; set; }
+        public string Model { get; set; }
+        public double Price {  get; set; }
+        public string Color {  get; set; }
+        public int Year { get; set; }
+        public int ProprietorId { get; set; }
+        public virtual UserModel? Proprietor { get; set; }
     }
 }
