@@ -30,16 +30,23 @@ namespace HotwheelsClub.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserModel>> Add([FromBody] UserModel userModel)
+        public async Task<ActionResult<UserDto>> Add([FromBody] UserRequestDto userDto)
         {
-            UserModel user = await _userService.Add(userModel);
+            UserDto user = await _userService.Add(userDto);
             return Ok(user);
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserModel>> Update([FromBody]UserModel userModel,int id)
+        public async Task<ActionResult<UserDto>> Update([FromBody]UserUpdateDto userDto,int id)
         {
-            UserModel user = await _userService.Update(userModel, id);
+            UserDto user = await _userService.Update(userDto, id);
+            return Ok(user);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UserDto>> Transfer([FromBody]UserTransferDto userDto,int id)
+        {
+            UserDto user = await _userService.Transference(userDto, id);
             return Ok(user);
         }
 

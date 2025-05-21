@@ -6,8 +6,9 @@ namespace HotwheelsClub.Repository.Interface
     {
         Task<List<UserModel>> GetAllUser();
         Task<UserModel> GetById(int id);
-        Task<UserModel> Add(UserModel user);
-        Task<UserModel> Update(UserModel user, int id);
+        Task<UserDto> Add(UserRequestDto dto);
+        Task<UserDto> Update(UserUpdateDto dto, int id);
+        Task<UserDto> Transference(UserTransferDto dto, int id);
         Task<bool> DeleteById(int id);
     }
 }

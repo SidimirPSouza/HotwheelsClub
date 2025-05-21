@@ -46,6 +46,7 @@ namespace HotwheelsClub.Repository
             hotwheelsId.Price = hotwheels.Price;
             hotwheelsId.ProprietorId = hotwheels.ProprietorId;
 
+            
 
             _DbContext.Hotwheels.Update(hotwheelsId);
             await _DbContext.SaveChangesAsync();

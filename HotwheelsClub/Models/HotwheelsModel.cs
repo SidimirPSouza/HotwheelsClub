@@ -1,4 +1,6 @@
-﻿namespace HotwheelsClub.Models
+﻿using System.Text.Json.Serialization;
+
+namespace HotwheelsClub.Models
 {
     public class HotwheelsModel
     {
@@ -9,6 +11,7 @@
         public string Color {  get; set; }
         public int Year { get; set; }
         public int ProprietorId { get; set; }
+        [JsonIgnore]
         public virtual UserModel? Proprietor { get; set; }
     }
 }

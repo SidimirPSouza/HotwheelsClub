@@ -24,13 +24,13 @@ public class HotwheelsService : IHotwheelsService
         return _hotwheelsRepository.Add(hotwheels);
     }
 
-    public Task<bool> DeleteById(int id)
-    {
-        return _hotwheelsRepository.DeleteById(id);
-    }
-
     public Task<HotwheelsModel> Update(HotwheelsModel hotwheels, int id)
     {
         return _hotwheelsRepository.Update(hotwheels, id);
+    }
+
+    public Task<bool> DeleteById(int id)
+    {
+        return _hotwheelsRepository.DeleteById(id);
     }
 }

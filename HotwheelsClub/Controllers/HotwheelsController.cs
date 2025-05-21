@@ -16,14 +16,14 @@ namespace HotwheelsClub.Controllers
             _hotwheelsService = hotwheelsService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<HotwheelsModel>>> SearchTodosHotwheels()
+        public async Task<ActionResult<List<HotwheelsModel>>> SearchAllHotwheels()
         {
             List<HotwheelsModel> hotwheels = await _hotwheelsService.GetAllHotwheels();
             return Ok(hotwheels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HotwheelsModel>> SearchPorId(int id)
+        public async Task<ActionResult<HotwheelsModel>> SearchForId(int id)
         {
              HotwheelsModel hotwheels = await _hotwheelsService.GetById(id);
             return Ok(hotwheels);

@@ -27,6 +27,9 @@ namespace HotwheelsClub
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IHotwheelsService, HotwheelsService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IClubRepository, ClubRepository>();
+            builder.Services.AddScoped<IClubService, ClubService>();
+            
 
             var app = builder.Build();
 
