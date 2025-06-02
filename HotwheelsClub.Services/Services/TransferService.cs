@@ -7,27 +7,23 @@ namespace HotwheelsClub.Service
 { 
     public class TransferService : ITransferService
     {
-        // private readonly IClubService _clubService;
         private readonly IHotwheelsRepository _hotwheelsRepository;
-        private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
-        public TransferService(IClubService clubService, IHotwheelsRepository hotwheelsRepository, IUserService userService, IUserRepository userRepository)
+        public TransferService(IHotwheelsRepository hotwheelsRepository, IUserRepository userRepository)
         {
-            // _clubService = clubService;
             _hotwheelsRepository = hotwheelsRepository;
-            _userService = userService;
             _userRepository = userRepository;
         }
 
-        public async Task<HotwheelsModel> TransferHotwheels(HotwheelsTransferModel transfer)
+        public async Task<HotwheelsModel> TransferHotwheelsAsync(HotwheelsTransferModel transfer)
         {
-            HotwheelsEntity hotwheelsId = await _hotwheelsRepository.GetById(transfer.Id);
+            HotwheelsEntity hotwheelsId = await _hotwheelsRepository.GetByIdAsync(transfer.Id);
             if (hotwheelsId == null)
             {
                 throw new Exception($"Hotwheels com o ID: {transfer.Id} não foi encontrada no banco de dados");
             }
             hotwheelsId.ProprietorId = transfer.ProprietorId;
-            await _hotwheelsRepository.Update(hotwheelsId);
+            await _hotwheelsRepository.UpdateAsync(hotwheelsId);
             return new HotwheelsModel
             {
                 Id = hotwheelsId.Id,
@@ -40,9 +36,9 @@ namespace HotwheelsClub.Service
             };
         }
     
-        public async Task<UserModel> TransferUser(UserTransferModel transfer)
+        public async Task<UserModel> TransferUserAsync(UserTransferModel transfer)
         {
-            UserEntity userId = await _userRepository.GetById(transfer.Id);
+            UserEntity userId = await _userRepository.GetByIdAsync(transfer.Id);
             if (userId == null)
             {
                 throw new Exception($"Hotwheels com o ID: {transfer.Id} não foi encontrada no banco de dados");
@@ -51,7 +47,7 @@ namespace HotwheelsClub.Service
             if (userId.MonthlyFees)
             {
                 userId.ClubId = transfer.ClubId;
-                await _userRepository.Update(userId);
+                await _userRepository.UpdateAsync(userId);
                 return new UserModel
                 {
                     Id = userId.Id,

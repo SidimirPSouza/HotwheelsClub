@@ -1,4 +1,4 @@
-namespace HotwheelsClub.Models
+namespace HotwheelsClub.Service.Dto
 {
     public class HotwheelsDto
     {
@@ -8,5 +8,6 @@ namespace HotwheelsClub.Models
         public double Price {  get; set; }
         public string Color {  get; set; }
         public int Year { get; set; }
+        public int? ProprietorId { get; set; }
     }
 } 

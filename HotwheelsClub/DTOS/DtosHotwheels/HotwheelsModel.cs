@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using HotwheelsClub.Service.Models;
 
-namespace HotwheelsClub.Models
+namespace HotwheelsClub.Service.Dto
 {
     public class HotwheelsCompleteDto
     {

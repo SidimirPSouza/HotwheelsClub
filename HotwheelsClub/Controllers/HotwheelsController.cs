@@ -1,4 +1,4 @@
-﻿using HotwheelsClub.Models;
+﻿using HotwheelsClub.Service.Dto;
 using HotwheelsClub.Service.Interface;
 using HotwheelsClub.Service.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,56 +15,45 @@ namespace HotwheelsClub.Controllers
             _hotwheelsService = hotwheelsService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<HotwheelsCompleteDto>>> SearchAllHotwheels()
+        public async Task<ActionResult<List<HotwheelsCompleteDto>>> SearchAllHotwheelsAsync()
         {
-            List<HotwheelsModel> hotwheels = await _hotwheelsService.GetAllHotwheels();
-            return Ok(hotwheels);
+            List<HotwheelsModel> hotwheels = await _hotwheelsService.GetAllHotwheelsAsync();
+            return Ok(Mappers.HotwheelsMapper.HotwheelsMapModelToListDto(hotwheels));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HotwheelsCompleteDto>> SearchForId(int id)
+        public async Task<ActionResult<HotwheelsCompleteDto>> SearchHotwheelsForIdAsync(int id)
         {
-             HotwheelsModel hotwheels = await _hotwheelsService.GetById(id);
-            return Ok(hotwheels);
+             HotwheelsModel hotwheels = await _hotwheelsService.GetHotwheelsByIdAsync(id);
+            var hotwheelsDto = Mappers.HotwheelsMapper.HotwheelsMapModelToDto(hotwheels);
+            return Ok(hotwheelsDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<HotwheelsCompleteDto>> Add([FromBody] HotwheelsCompleteDto dto)
+        public async Task<ActionResult<HotwheelsCompleteDto>> AddHotwheelsAsync([FromBody] HotwheelsCompleteDto dto)
         {
-            var hotwheels = new HotwheelsModel
-            {
-                Name = dto.Name,
-                Model = dto.Model,
-                Price = dto.Price,
-                Color = dto.Color,
-                Year = dto.Year,
-                ProprietorId = dto.ProprietorId
-            };
+            HotwheelsModel hotwheels = Mappers.HotwheelsMapper.HotwheelsMapCompleteDtoToModel(dto);
 
-            var created = await _hotwheelsService.Add(hotwheels);
-            return Ok(created);
+            var created = await _hotwheelsService.AddHotwheelsAsync(hotwheels);
+
+            var hotwheelsDto = Mappers.HotwheelsMapper.HotwheelsMapModelToDto(created);
+            return Ok(hotwheelsDto);
         }
 
+
         [HttpPut]
-        public async Task<ActionResult<HotwheelsCompleteDto>> Update([FromBody]HotwheelsDto dto)
+        public async Task<ActionResult<HotwheelsCompleteDto>> UpdateHotwheelsAsync([FromBody]HotwheelsDto dto)
         {
-            var hotwheels = new HotwheelsModel
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                Model = dto.Model,
-                Price = dto.Price,
-                Color = dto.Color,
-                Year = dto.Year,
-            };
-            var created = await _hotwheelsService.Update(hotwheels);
-            return Ok(created);
+            HotwheelsModel hotwheels = Mappers.HotwheelsMapper.HotwheelsMapDtoToModel(dto);
+            var created = await _hotwheelsService.UpdateHotwheelsAsync(hotwheels);
+            HotwheelsCompleteDto hotwheelsDto = Mappers.HotwheelsMapper.HotwheelsMapModelToDto(created);
+            return Ok(hotwheelsDto);
         }
 
         [HttpDelete]
-        public async Task<ActionResult<HotwheelsCompleteDto>> Delete(int id)
+        public async Task<ActionResult<HotwheelsCompleteDto>> DeleteHotwheelsAsync(int id)
         {
-            bool delete = await _hotwheelsService.DeleteById(id);
+            bool delete = await _hotwheelsService.DeleteHotwheelsById(id);
             return Ok(delete);
         }
     }

@@ -1,4 +1,4 @@
-namespace HotwheelsClub.Models
+namespace HotwheelsClub.Service.Dto
 {
     public class UserDto
     {

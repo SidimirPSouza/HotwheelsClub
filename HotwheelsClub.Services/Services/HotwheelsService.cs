@@ -13,10 +13,11 @@ namespace HotwheelsClub.Service
         {
            _hotwheelsRepository = hotwheelsRepository;
         }
-        public async Task<List<HotwheelsModel>> GetAllHotwheels()
+        public async Task<List<HotwheelsModel>> GetAllHotwheelsAsync()
         {
-            var hotwheelsEntity = await _hotwheelsRepository.GetAll();
-            var hotwheelsModel = new List<HotwheelsModel>();
+            var hotwheelsEntity = await _hotwheelsRepository.GetAllAsync();
+            if (hotwheelsEntity == null)
+                throw new Exception($"Nenhum hotwheels foi encontrado no banco de dados");
             return hotwheelsEntity.Select(item =>
                            new HotwheelsModel
                            {
@@ -30,10 +31,11 @@ namespace HotwheelsClub.Service
                            }).ToList();
         }
 
-        public async Task<HotwheelsModel> GetById(int id)
+        public async Task<HotwheelsModel> GetHotwheelsByIdAsync(int id)
         {
-            var hotwheelsEntity = await _hotwheelsRepository.GetById(id);
-            var hotwheelsModel = new HotwheelsModel();
+            var hotwheelsEntity = await _hotwheelsRepository.GetByIdAsync(id);
+            if (hotwheelsEntity == null)
+                throw new Exception($"Hotwheels com o ID: {id} não foi encontrada no banco de dados");
             return new HotwheelsModel
             {
                 Id = hotwheelsEntity.Id,
@@ -46,7 +48,7 @@ namespace HotwheelsClub.Service
             };
         }
     
-        public async Task<HotwheelsModel> Add(HotwheelsModel hotwheels)
+        public async Task<HotwheelsModel> AddHotwheelsAsync(HotwheelsModel hotwheels)
         {
             var hotwheelsEntity = new HotwheelsEntity
             {
@@ -59,13 +61,13 @@ namespace HotwheelsClub.Service
                 Year = hotwheels.Year,
             };
 
-            var created = await _hotwheelsRepository.Add(hotwheelsEntity);
+            var created = await _hotwheelsRepository.AddAsync(hotwheelsEntity);
             return hotwheels;
         }
 
-        public async Task<HotwheelsModel> Update(HotwheelsModel hotwheels)
+        public async Task<HotwheelsModel> UpdateHotwheelsAsync(HotwheelsModel hotwheels)
         {
-            var hotwheelsEntity = await _hotwheelsRepository.GetById(hotwheels.Id);
+            var hotwheelsEntity = await _hotwheelsRepository.GetByIdAsync(hotwheels.Id);
             if (hotwheelsEntity == null)
                 throw new Exception($"Hotwheels com o ID: {hotwheels.Id} não foi encontrada no banco de dados");
             hotwheelsEntity.Id = hotwheels.Id;
@@ -74,13 +76,14 @@ namespace HotwheelsClub.Service
             hotwheelsEntity.Price = hotwheels.Price;
             hotwheelsEntity.Model = hotwheels.Model;
             hotwheelsEntity.Year = hotwheels.Year;
-            await _hotwheelsRepository.Update(hotwheelsEntity);
+            hotwheelsEntity.ProprietorId = hotwheels.ProprietorId;
+            await _hotwheelsRepository.UpdateAsync(hotwheelsEntity);
             return hotwheels;
         }
 
-        public Task<bool> DeleteById(int id)
+        public Task<bool> DeleteHotwheelsById(int id)
         {
-            return _hotwheelsRepository.DeleteById(id);
+            return _hotwheelsRepository.DeleteByIdAsync(id);
         }
     }
 }

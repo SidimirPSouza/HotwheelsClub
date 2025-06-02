@@ -1,4 +1,4 @@
-using HotwheelsClub.Models;
+using HotwheelsClub.Service.Dto;
 using HotwheelsClub.Service.Interface;
 using HotwheelsClub.Service.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,52 +15,48 @@ namespace HotwheelsClub.Controllers
             _userService = userService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<UserCompleteDto>>> SearchAllUser()
+        public async Task<ActionResult<List<UserCompleteDto>>> SearchAllUserAsync()
         {
-            List<UserModel> user = await _userService.GetAllUser();
-            return Ok(user);
+            List<UserModel> user = await _userService.GetAllUserAsync();
+            return Ok(Mappers.UserMapper.UserMapModelToListDto(user));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserCompleteDto>> SearchForId(int id)
+        public async Task<ActionResult<UserCompleteDto>> SearchUserForIdAsync(int id)
         {
-             UserModel user = await _userService.GetById(id);
-            return Ok(user);
+            UserModel user = await _userService.GetUserByIdAsync(id);
+            UserCompleteDto userDto = Mappers.UserMapper.UserMapModelToCompleteDto(user);
+            return Ok(userDto);
         }
 
+        
+
         [HttpPost]
-        public async Task<ActionResult<UserDto>> Add([FromBody] UserRequestDto dto)
+        public async Task<ActionResult<UserDto>> AddUserAsync([FromBody] UserRequestDto dto)
         {
-            var hotwheels = new UserModel
-            {
+            UserModel user = Mappers.UserMapper.UserMapRequestDtoToModel(dto);
 
-            Name = dto.Name,
-            MonthlyFees = dto.MonthlyFees,
-                
-            };
-
-            var created = await _userService.Add(hotwheels);
-            return Ok(created);
+            var created = await _userService.AddUserAsync(user);
+            UserDto userDto = Mappers.UserMapper.UserMapModelToDto(created);
+            return Ok(userDto);
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserDto>> Update([FromBody]UserUpdateDto dto)
+        public async Task<ActionResult<UserDto>> UpdateUserAsync([FromBody]UserUpdateDto dto)
         {
-            var user = new UserModel
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                MonthlyFees = dto.MonthlyFees,
-                ClubId = dto.ClubId,
-            };
-                var created = await _userService.Update(user);
-            return Ok(created);
+            UserModel user = Mappers.UserMapper.UserMapUpdateDtoToModel(dto);
+
+            var created = await _userService.UpdateUserAsync(user);
+            UserDto userDto = Mappers.UserMapper.UserMapUpdateModeTolDto(created);
+            return Ok(userDto);
         }
 
+        
+
         [HttpDelete]
-        public async Task<ActionResult<UserCompleteDto>> Delete(int id)
+        public async Task<ActionResult<UserCompleteDto>> DeleteUserAsync(int id)
         {
-            bool delete = await _userService.DeleteById(id);
+            bool delete = await _userService.DeleteUserById(id);
             return Ok(delete);
         }
     }

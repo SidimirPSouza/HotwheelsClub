@@ -15,37 +15,35 @@ namespace HotwheelsClub.Repository
             _DbSet = DBContext.Set<T>();
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
             return await _DbSet
-            // .Include(x => x.Members)
             .ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
             return await _DbSet
-            // .Include(x => x.Members)
             .FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<T> Add(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            await _DbContext.AddAsync(entity);
+            await _DbSet.AddAsync(entity);
             await _DbContext.SaveChangesAsync();
 
             return entity;
         }
 
-        public async Task<T> Update(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
             _DbSet.Update(entity);
             await _DbContext.SaveChangesAsync();
             return entity;
         }
         
-        public async Task<bool> DeleteById(int id)
+        public async Task<bool> DeleteByIdAsync(int id)
         {
-            T t = await GetById(id);
+            T t = await GetByIdAsync(id);
             if (t == null)
             {
                 throw new Exception($"Hotwheels com o ID: {id} não foi encontrada no banco de dados");

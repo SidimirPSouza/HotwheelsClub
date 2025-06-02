@@ -1,9 +1,7 @@
-using HotwheelsClub.Models;
-using HotwheelsClub.Repository.Interface;
+using HotwheelsClub.Service.Dto;
 using HotwheelsClub.Service.Interface;
 using HotwheelsClub.Service.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace HotwheelsClub.Controllers
 {
@@ -17,57 +15,53 @@ namespace HotwheelsClub.Controllers
             _clubService = clubService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<ClubDto>>> SearchAllClubs()
+        public async Task<ActionResult<List<ClubDto>>> SearchAllClubsAsync()
         {
-            List<ClubModel> club = await _clubService.GetAllClubs();
-            return Ok(club);
+            List<ClubModel> club = await _clubService.GetAllClubsAsync();
+            return Mappers.ClubMappers.MapListModelToDto(club);
         }
 
+        
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClubDto>> SearchForId(int id)
+        public async Task<ActionResult<ClubDto>> SearchClubForId(int id)
         {
-             ClubModel club = await _clubService.GetById(id);
-            return Ok(club);
+             ClubModel club = await _clubService.GetClubByIdAsync(id);
+            var clubDto = Mappers.ClubMappers.MapModelToDto(club); 
+            return Ok(clubDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ClubDto>> Add([FromBody] ClubDto dto)
+        public async Task<ActionResult<ClubDto>> AddClubAsync([FromBody] ClubDto dto)
         {
-            var club = new ClubModel
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                ProprietorId = dto.ProprietorId,
-                Proprietor = dto.Proprietor,
-                Members = dto.Members
-            };
+            var club = Mappers.ClubMappers.MapDtoToModel(dto);
 
-            var created = await _clubService.Add(club);
-            return Ok(created);
+            var created = await _clubService.AddClubAsync(club);
+
+            var clubDto = Mappers.ClubMappers.MapModelToDto(created);
+            return Ok(clubDto);
         }
 
         [HttpPut]
-        public async Task<ActionResult<ClubDto>> Update([FromBody]ClubDto dto)
+        public async Task<ActionResult<ClubDto>> UpdateClubAsync([FromBody]ClubDto dto)
         {
-            var club = new ClubModel
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                Description = dto.Description,
-                ProprietorId = dto.ProprietorId,
-                Proprietor = dto.Proprietor,
-                Members = dto.Members,
-            };
+            ClubModel club = Mappers.ClubMappers.MapDtoToModel(dto);
 
-            var created = await _clubService.Update(club);
-            return Ok(created);
+            var created = await _clubService.UpdateClubAsync(club);
+
+            ClubDto clubDto = Mappers.ClubMappers.MapModelToDto(club);
+            return Ok(clubDto);
         }
+
+         
 
         [HttpDelete]
-        public async Task<ActionResult<ClubDto>> Delete(int id)
+        public async Task<ActionResult<ClubDto>> DeleteClubAsync(int id)
         {
-            bool delete = await _clubService.DeleteById(id);
+            bool delete = await _clubService.DeleteClubById(id);
             return Ok(delete);
         }
+
+        
     }
 }

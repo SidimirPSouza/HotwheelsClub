@@ -4,10 +4,10 @@ namespace HotwheelsClub.Service.Interface
 {
     public interface IUserService
     {
-        Task<List<UserModel>> GetAllUser();
-        Task<UserModel> GetById(int id);
-        Task<UserModel> Add(UserModel user);
-        Task<UserModel> Update(UserModel user);
-        Task<bool> DeleteById(int id);
+        Task<List<UserModel>> GetAllUserAsync();
+        Task<UserModel> GetUserByIdAsync(int id);
+        Task<UserModel> AddUserAsync(UserModel user);
+        Task<UserModel> UpdateUserAsync(UserModel user);
+        Task<bool> DeleteUserById(int id);
     }
 }
