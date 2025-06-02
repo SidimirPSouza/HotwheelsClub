@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotwheelsClub", "HotwheelsClub\HotwheelsClub.csproj", "{AAC0670B-573D-42E3-9DAF-988CBEFB5EAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotwheelsClub.test", "HotwheelsClub.test\HotwheelsClub.test.csproj", "{D3637827-5DB2-45B0-BC1E-3AE2419916CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotwheelsClub.Test", "HotwheelsClub.test\HotwheelsClub.Test.csproj", "{D3637827-5DB2-45B0-BC1E-3AE2419916CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotwheelsClub.Repository", "HotwheelsClub.Repository\HotwheelsClub.Repository.csproj", "{7BB52AD6-5A8C-4EDC-AF12-FDE5EAEAE066}"
 EndProject
